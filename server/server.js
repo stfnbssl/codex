@@ -23,6 +23,12 @@ app.get('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
   try {
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.length < 1) {
+        res.status(200).send({
+            bot: "No API KEY"
+          });
+        return;
+    }
     const prompt = req.body.prompt;
 
     const response = await openai.createCompletion({
